@@ -5,7 +5,7 @@ import * as Icon from 'react-bootstrap-icons';
 import store from './../../store';
 import { connect } from 'react-redux';
 import { LOGOUT } from './../../reducers/types';
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 interface HeaderState {
   viewSignOut:boolean;
@@ -50,18 +50,30 @@ componentDidMount(){
   render() {
     return (
       <div className="header-main">
-      <Navbar bg="dark" variant="dark">
-        <Navbar.Brand as={Link}  to="/home">Navbar</Navbar.Brand>
-        <Nav className="mr-auto">
-          <Nav.Link as={Link}  to="/login">Home</Nav.Link>
-          <Nav.Link as={Link}  to="/features">Features</Nav.Link>
-          <Nav.Link as={Link}  to="/pricing">Pricing</Nav.Link>
-        </Nav>
+      <Navbar bg="dark" expand="md" variant="dark">
+        <Navbar.Brand>     <img
+        src="./logo192.png"
+        width="30"
+        height="30"
+        className="d-inline-block align-top"
+        alt="React Bootstrap logo"
+      />{' '}
+     OakNorth Bank</Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+        {this.state.viewSignOut ?<Nav className="mr-auto">
+    
+          <Nav.Link as={NavLink}  to="/home">Home</Nav.Link>
+          <Nav.Link as={NavLink}  to="/newAccount">Create Account</Nav.Link>
+          <Nav.Link as={NavLink}  to="/pricing">Pricing</Nav.Link>:
+          
+        </Nav>: ""}
         <Form inline>
             {this.state.viewSignOut ? <Nav.Link className="text-white" onClick={this.signOut}> <Icon.BoxArrowInRight /> Sign Out</Nav.Link> : ""}
-          <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-          <Button variant="outline-info">Search</Button>
+          {/* <FormControl type="text" placeholder="Search" className="mr-sm-2" />
+          <Button variant="outline-info">Search</Button> */}
         </Form>
+        </Navbar.Collapse>
       </Navbar>
     </div>
     );

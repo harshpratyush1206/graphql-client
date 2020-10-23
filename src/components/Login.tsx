@@ -80,7 +80,8 @@ class Login extends Component<LoginProps,LoginState> {
                 payload: {
                     loggedIn:true,
                     username:this.state.username,
-                    token: result.data.login.token
+                    token: result.data.login.token,
+                    userType: result.data.login.userType
                 }
               })
               this.props.history.push('/home')

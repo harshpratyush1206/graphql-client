@@ -9,7 +9,8 @@ const LOGIN = gql`
 mutation login($username: String!, $password: String!) {
     login(email: $username, password:$password) {
     token
-    expiresOn
+    expiresOn,
+    userType
   }
 }`
 
@@ -39,8 +40,6 @@ export function login(username:string,password:string):Promise<any>{
  export function getAllbank():Promise<any>{
         return getClient().query({
             query:ALL_BANK,  
-        }).catch(error=>{
-            console.log(`this is the ${error}`)
         });
  } 
 

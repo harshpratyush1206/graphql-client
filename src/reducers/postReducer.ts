@@ -3,7 +3,8 @@ import {LOGIN,LOGOUT} from './types';
 const initialState =  {
   loggedIn:false,  
   username: null,
-  token: null
+  token: null,
+  userType:null
 }
 
 export default function(state = initialState,action:any){
@@ -19,7 +20,8 @@ export default function(state = initialState,action:any){
                 ...state,
                 loggedIn:false,  
                 username: null,
-                token: null
+                token: null,
+                userType: null
             }
                  
             

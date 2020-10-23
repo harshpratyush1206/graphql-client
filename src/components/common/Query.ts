@@ -46,7 +46,7 @@ export function login(username:string,password:string):Promise<any>{
 
 function getClient():ApolloClient<NormalizedCacheObject>{
     const authLink = setContext((_, { headers }) => {
-        const token = store.getState().posts.token;
+        const token = store.store.getState().posts.token;
         return {
           headers: {
             ...headers,

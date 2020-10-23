@@ -40,7 +40,7 @@ componentDidMount(){
 }
 
   signOut() {
-    store.dispatch({
+    store.store.dispatch({
       type: LOGOUT,
       payload: {
       }

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Header from './common/header'
-import { LOGIN } from "./../reducers/types";
+import { LOGIN,LOGOUT } from "./../reducers/types";
 import { connect } from "react-redux";
 import store from "./../store";
 import {
@@ -20,12 +20,12 @@ import {
 import * as Icon from 'react-bootstrap-icons';
 import { login } from "./common/Query";
 
-
-const initialState = {
-  selectedOption: "",
-  otpSent: false,
-  isLoading: false,
-};
+const mapStateToProps = (store:any) => ({
+    loggedIn: store.posts.loggedIn,
+  })
+  const mapDispatchToProps = (dispatch:any) => ({
+  
+  })
 
 interface LoginState {
     username:string,
@@ -42,6 +42,7 @@ interface LoginState {
 class Login extends Component<LoginProps,LoginState> {
   constructor(props:LoginProps) {
     super(props);
+
     this.state = {
         username:'',
         isLoading:false,
@@ -53,6 +54,15 @@ class Login extends Component<LoginProps,LoginState> {
 }
 
   componentDidMount() {
+    if(this.props.loggedIn){
+        this.props.history.push('/home')
+    }
+  }
+
+  componentDidUpdate(){
+    if(this.props.loggedIn){
+        this.props.history.push('/home')
+    } 
   }
 
   finalLogin(e:any){
@@ -65,7 +75,7 @@ class Login extends Component<LoginProps,LoginState> {
 
     if (form.checkValidity()){
         login(this.state.username,this.state.password).then(result=>{
-            store.dispatch({
+            store.store.dispatch({
                 type: LOGIN,
                 payload: {
                     loggedIn:true,
@@ -75,7 +85,9 @@ class Login extends Component<LoginProps,LoginState> {
               })
               this.props.history.push('/home')
         }).catch(d=>{
-            console.log(d)
+            store.store.dispatch({
+                type: LOGOUT
+              })
         }).finally(()=>{      
             this.setState({ isLoading: false });
         })
@@ -189,4 +201,4 @@ class Login extends Component<LoginProps,LoginState> {
   }
   
   }
-export default Login;
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

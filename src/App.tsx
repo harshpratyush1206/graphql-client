@@ -12,11 +12,6 @@ function App() {
         <Route path="/" exact component={Login} />
         <Route path="/login" exact component={Login} />
         <Route path="/home" exact component={Home}/>
-        {/* <Route path="/home" exact component={Landing} />
-        <Route path="/prescreeningComments" exact component={PreScreeningComments} />
-        <Route path="/submitted" exact component={LandingSubmittedForm} />
-        <Route path="/forgiveness-document" exact component={LandingForgivePage} />
-        <Route path="/forgiveness-followup" exact component={ForgivenessFollowup} /> */}
       </Switch>
     </BrowserRouter>
   );

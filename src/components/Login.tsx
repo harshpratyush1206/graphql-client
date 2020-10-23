@@ -73,6 +73,7 @@ class Login extends Component<LoginProps,LoginState> {
                     token: result.data.login.token
                 }
               })
+              this.props.history.push('/home')
         }).catch(d=>{
             console.log(d)
         }).finally(()=>{      
@@ -108,8 +109,10 @@ class Login extends Component<LoginProps,LoginState> {
                             >
                               <Form.Label>Email</Form.Label>
                               <InputGroup>
+                              <InputGroup.Prepend>
                               <InputGroup.Text>  
                               <Icon.PersonCircle/></InputGroup.Text>
+                              </InputGroup.Prepend>
                                 <Form.Control
                                   required
                                   type="text"

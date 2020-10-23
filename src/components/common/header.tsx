@@ -49,7 +49,7 @@ componentDidMount(){
   }
   render() {
     return (
-      <>
+      <div className="header-main">
       <Navbar bg="dark" variant="dark">
         <Navbar.Brand as={Link}  to="/home">Navbar</Navbar.Brand>
         <Nav className="mr-auto">
@@ -63,7 +63,7 @@ componentDidMount(){
           <Button variant="outline-info">Search</Button>
         </Form>
       </Navbar>
-    </>
+    </div>
     );
   }
 }

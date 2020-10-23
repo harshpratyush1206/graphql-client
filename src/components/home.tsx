@@ -17,28 +17,18 @@ import {
   Row,
   Col,
   ListGroup,
+  Table,
 } from "react-bootstrap";
 import * as Icon from 'react-bootstrap-icons';
 import { getAllbank } from './common/Query';
 
 
-const initialState = {
-  selectedOption: "",
-  otpSent: false,
-  isLoading: false,
-};
-
-interface LoginState {
-    username:string,
-    isLoading: boolean,
-    password:string,
-    validated:boolean;
-    setValidated:boolean;
-  }
-  interface LoginProps {
-    history: any;
-    loggedIn:boolean;
-  }
+const mapStateToProps = (store:any) => ({
+    loggedIn: store.posts.loggedIn,
+  })
+  const mapDispatchToProps = (dispatch:any) => ({
+  
+  })
 
 class Home extends Component<any,any> {
   constructor(props:any) {
@@ -51,43 +41,50 @@ class Home extends Component<any,any> {
 }
 
   componentDidMount() {
-      
+      if(!this.props.loggedIn){
+          this.props.history.push("/");
+      }
   }
 
 
   render(){
     return (
+        <div className="main-container">
+        <Header history={this.props.history} />
+        <Container fluid>
         <Row>
           <Col md={12} lg={12}>
-            <div className="displayTableOverflow">
-              {this.state.accountList && this.state.accountList.length > 0
-                ? this.state.accountList.map((doc:any) => {
+          <Table striped bordered hover responsive>
+  <thead>
+    <tr>
+      <th>Holder Name</th>
+      <th> Account Number</th>
+      <th>Branch Code</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+  {this.state.accountList && this.state.accountList.length > 0
+                ? this.state.accountList.map((account:any) => {
                     return (
-                      <ListGroup.Item key={doc.accountNumber}>
-                        <Row>
-                          <Col className={doc.changed ? "newValue" :"" }  md={4} xs={12}>
-                            {doc.accountNumber}
-                          </Col>
-                          <Col className={doc.changed ? "newValue" :"" }  md={4} xs={12}>
-                            {doc.branchCode}
-                          </Col>
-                          <Col className={doc.changed ? "newValue" :"" }  md={4} xs={12}>
-                            {doc.accountNumber}
-                          </Col>
-                        
-                          <Col md={2} >
-                            {doc.accountStatus}
-                          </Col>
-                        </Row>
-                      </ListGroup.Item>
-                    );
-                  })
-                : ""}
-            </div>
-          </Col>
+                        <tr>
+                            <td>{account.user.firstName} {account.user.lastName}</td>
+                            <td>{account.accountNumber}</td>
+                            <td>{account.branchCode}</td>
+                            <td>{account.accountStatus}</td>
+                        </tr>
+                    )
+                })
+            :""
+    }
+  </tbody>
+</Table>
+         </Col>
         </Row>
+        </Container>
+        </div>
       );
   }
   
   }
-export default Home;
+  export default connect(mapStateToProps, mapDispatchToProps)(Home);

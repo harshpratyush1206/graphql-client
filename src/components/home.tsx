@@ -93,7 +93,7 @@ class Home extends Component<any, any> {
                                                 </tr>
                                             )
                                         })
-                                    : <tr><td colSpan={4} className="text-center big bold">{this.state.noDataText}</td></tr>
+                                    : <tr><td colSpan={5} className="text-center big bold">{this.state.noDataText}</td></tr>
                                     }
                                 </tbody>
                             </Table>

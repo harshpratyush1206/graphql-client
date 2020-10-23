@@ -31,3 +31,37 @@ font-weight: bolder;
 .big{
   font-size: 16px;
 }
+
+.mandat-astrik {
+  color: red;
+}
+
+hr {
+  border: 0;
+  clear:both;
+  display:block;
+  width: 100%;               
+  background-color: #32322f;
+  height: 1.2px !important;
+}
+
+.sub-title{
+  font-size: 18px;
+  font-weight:bolder;
+}
+
+.toaster{
+  font-size: 16px;
+  font-weight: bold;
+}
+
+
+span svg{
+ height: 20px !important;
+}
+
+.toaster svg{
+  font-weight: bolder;
+  margin-right: 10px;
+  height: 30px !important;
+}

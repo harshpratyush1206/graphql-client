@@ -18,7 +18,7 @@ import {
   Col,
 } from "react-bootstrap";
 import * as Icon from 'react-bootstrap-icons';
-import { login } from "./common/Query";
+import { handleError, login } from "./common/Query";
 
 const mapStateToProps = (store:any) => ({
     loggedIn: store.posts.loggedIn,
@@ -85,7 +85,8 @@ class Login extends Component<LoginProps,LoginState> {
                 }
               })
               this.props.history.push('/home')
-        }).catch(d=>{
+        }).catch(error=>{
+            handleError(error)
             store.store.dispatch({
                 type: LOGOUT
               })
@@ -106,7 +107,7 @@ class Login extends Component<LoginProps,LoginState> {
                     <Row  className="justify-content-md-center">
                       <Col md={4} >
                       <Card>
-                      <Card.Header>Login</Card.Header>
+                      <Card.Header className="text-center">Login</Card.Header>
           <Card.Body>
                         <Form
                           className="form-padding"

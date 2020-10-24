@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import "./header.css";
-import { Navbar, Form, Nav, FormControl, Button } from 'react-bootstrap';
+import { Navbar, Form, Nav } from 'react-bootstrap';
 import * as Icon from 'react-bootstrap-icons';
 import store from './../../store';
 import { connect } from 'react-redux';
 import { LOGOUT } from './../../reducers/types';
-import { Link, NavLink } from "react-router-dom";
+import {NavLink } from "react-router-dom";
 
 interface HeaderState {
   viewSignOut:boolean;

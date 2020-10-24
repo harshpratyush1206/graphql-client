@@ -6,12 +6,8 @@ import store from "./../store";
 import {
   Spinner,
   InputGroup,
-  Navbar,
   Form,
-  FormControl,
   Button,
-  NavDropdown,
-  Nav,
   Card,
   Container,
   Row,
@@ -80,7 +76,7 @@ class Login extends Component<LoginProps,LoginState> {
                 payload: {
                     loggedIn:true,
                     username:this.state.username,
-                    token: result.data.login.token,
+                    token: result.data.login.bearerToken,
                     userType: result.data.login.userType
                 }
               })

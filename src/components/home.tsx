@@ -1,26 +1,15 @@
 import React, { Component } from "react";
 import Header from './common/header'
-import { LOGIN } from "./../reducers/types";
 import { connect } from "react-redux";
-import store from "./../store";
 import {
-    Spinner,
-    InputGroup,
-    Navbar,
-    Form,
-    FormControl,
     Button,
-    NavDropdown,
-    Nav,
-    Card,
     Container,
     Row,
     Col,
-    ListGroup,
     Table,
 } from "react-bootstrap";
 import * as Icon from 'react-bootstrap-icons';
-import { getAllbank } from './common/Query';
+import { getAllbank, handleError } from './common/Query';
 
 
 const mapStateToProps = (store: any) => ({
@@ -49,8 +38,8 @@ class Home extends Component<any, any> {
         getAllbank().then(result => {
             this.setState({ accountList: result.data.allBank ,noDataText:'No Data Found'});
         }).catch(error =>  {
+            handleError(error);
             this.setState({ noDataText:'Error in fetching data'});
-            console.log(error);
     })
 }
     }

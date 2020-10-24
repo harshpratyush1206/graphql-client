@@ -8,7 +8,7 @@ const httpLink = new HttpLink({ uri: 'http://localhost:8080/graphql' });
 const LOGIN = gql`
 mutation login($username: String!, $password: String!) {
     login(email: $username, password:$password) {
-    token
+    bearerToken
     expiresOn,
     userType
   }
@@ -145,7 +145,12 @@ function getClient():ApolloClient<NormalizedCacheObject>{
  }
 
 export function handleError(e:any){
+  if([401,403].indexOf(e.networkError?.response?.status)>-1){
+      ToastProvider.error("Please re-login");
+  }
+  else{
         e.graphQLErrors.forEach((element:any) => {
             ToastProvider.error(element.message);
         });
+      }
 }

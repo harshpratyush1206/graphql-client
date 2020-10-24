@@ -94,7 +94,7 @@ td {
 
 tbody {
   line-height: 14px;
-  vertical-align: middle;
+    vertical-align: middle;
 }
 
 td:nth-child(1) {

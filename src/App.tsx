@@ -21,7 +21,7 @@ function App() {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-        closeButton={false}
+        closeButton={true}
         transition={Slide}
       />
       <Switch>

@@ -35,7 +35,8 @@ class CreateAccount extends Component<any, any> {
             applicantName: '',
             clientId: '',
             clientContact: '',
-            setValidated: false
+            setValidated: false,
+            isLoading:false
         }
         this.submit = this.submit.bind(this);
         this.selectBranch = this.selectBranch.bind(this);
@@ -179,8 +180,12 @@ class CreateAccount extends Component<any, any> {
                             </Form.Control.Feedback>
                                                 </InputGroup>
                                             </Form.Group>
+                                        </Form.Row>
+                                        <Form.Row>
+                                            <span className="sub-title">Branch Details</span> <hr />
 
-                                            <Form.Group as={Col} md="6" controlId="branchCode">
+
+                                            <Form.Group as={Col} md="4" controlId="branchCode">
                                                 <Form.Label>Branch Code<span className="mandat-astrik">*</span></Form.Label>
                                                 <InputGroup>
                                                     <InputGroup.Prepend>
@@ -211,9 +216,6 @@ class CreateAccount extends Component<any, any> {
 
                                                 </InputGroup>
                                             </Form.Group>
-                                        </Form.Row>
-                                        <Form.Row>
-                                            <span className="sub-title">Branch Details</span> <hr />
 
                                             <Form.Group as={Col} md="4" controlId="street">
                                                 <Form.Label>Street<span className="mandat-astrik">*</span></Form.Label>
@@ -425,6 +427,7 @@ class CreateAccount extends Component<any, any> {
                                                     size="sm"
                                                     variant="success"
                                                     className="ml-10 float-right"
+                                                    disabled={this.state.isLoading}
                                                 >
                                                     {this.state.isLoading ? (
                                                         <Spinner

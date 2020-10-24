@@ -16,8 +16,8 @@ mutation login($username: String!, $password: String!) {
 
 
 const CREATE_ACCOUNT = gql`
-mutation createBankDetails($bankDetailModel: BankDetailsModel!) {
-    createBankDetails(bankDetailModel: $bankDetailModel) {
+mutation createBankAccount($bankDetailModel: BankDetailsModel!) {
+  createBankAccount(bankDetailModel: $bankDetailModel) {
         accountNumber,
         branchCode
   }

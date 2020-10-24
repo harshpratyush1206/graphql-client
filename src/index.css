@@ -65,3 +65,43 @@ span svg{
   margin-right: 10px;
   height: 30px !important;
 }
+
+ .table-bordered td,
+.table-bordered th {
+  border: 0px solid #dee2e6;
+}
+ .table-bordered th {
+  color: #8a9ba8;
+}
+
+thead tr{
+  background: #ecf1f5;
+  border: 2px solid #dce0e3;
+  box-sizing: border-box;
+  font-size: 14px;
+  line-height: 18px;
+  border-style: solid #dee2e6 !important;
+  color: #8a9ba8;
+}
+
+td {
+  border: 1px solid #dee2e6 !important;
+  height: 40px;
+  border-left-style: hidden !important;
+  border-right-style: hidden !important;
+  vertical-align: middle !important;
+}
+
+tbody {
+  line-height: 14px;
+  vertical-align: middle;
+}
+
+td:nth-child(1) {
+  border-left-style: solid #dee2e6 !important;
+  border-left: 2px solid #dee2e6 !important;
+}
+ td:last-child {
+  border-right-style: solid #dee2e6 !important;
+  border-right: 2px solid #dee2e6 !important;
+}

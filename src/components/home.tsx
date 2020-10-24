@@ -168,8 +168,8 @@ class Home extends Component<any, any> {
                     <Row>
                         <Col md={12} lg={12}>
                             <Row>
-                                <Col md={3} className="offset-md-7 float-right">
-                                    <Form.Group controlId="formBusinessType">
+                                <Col md={4} className="offset-md-6 float-right">
+                                    <Form.Group controlId="formBankKeys">
                                         {/* <Form.Label>Visible Columns</Form.Label> */}
 
                                         <ReactSelect
@@ -194,7 +194,7 @@ class Home extends Component<any, any> {
                             </Row>
 
 
-                            <Table bordered hover responsive>
+                            <Table className="table-bordered" hover responsive>
                                 <thead>
                                     <tr>
                                         {this.state.selectedBankDetails.map((bankKey: any) => {

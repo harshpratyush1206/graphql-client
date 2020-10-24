@@ -1,4 +1,4 @@
-import { ApolloClient, gql, HttpLink, InMemoryCache, NormalizedCacheObject } from '@apollo/client';
+import { ApolloClient, DocumentNode, gql, HttpLink, InMemoryCache, NormalizedCacheObject } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import store from '../../store'
 import ToastProvider from './ToastProvider';
@@ -15,7 +15,7 @@ mutation login($username: String!, $password: String!) {
 }`
 
 
-const CREATE_ACCOUNT =  gql`
+const CREATE_ACCOUNT = gql`
 mutation createBankDetails($bankDetailModel: BankDetailsModel!) {
     createBankDetails(bankDetailModel: $bankDetailModel) {
         accountNumber,
@@ -36,20 +36,8 @@ const ALL_BANK = gql`query ALL_BANK{
         }
       }
 }`
- 
-const ALL_BRANCH= gql`query ALL_BRANCH{
-    allBranches{
-        id,
-        branchCode,
-        city,
-        country,
-        street,
-        zip
-      }
-}`
 
-
-const ALL_CLIENT= gql`query ALL_CLIENT{
+const ALL_BRANCH_CLIENT = gql`query ALL_BRANCH_CLIENT{
     allClients{
         id,
         firstName,
@@ -59,22 +47,8 @@ const ALL_CLIENT= gql`query ALL_CLIENT{
         city,
         country,
         street,
-        zip
-      }
-}`
-
-
-const ALL_BRANCH_CLIENT= gql`query ALL_BRANCH_CLIENT{
-    allClients{
-        id,
-        firstName,
-        lastName,
-        email,
-        contact,
-        city,
-        country,
-        street,
-        zip
+        zip,
+        fullName
       },
       allBranches{
         id,
@@ -86,71 +60,76 @@ const ALL_BRANCH_CLIENT= gql`query ALL_BRANCH_CLIENT{
       }
 }`
 
-export function login(username:string,password:string):Promise<any>{
-    return getClient()
+export function login(username: string, password: string): Promise<any> {
+  return getClient()
     .mutate({
-    mutation:LOGIN,
-    variables: {username,password}
+      mutation: LOGIN,
+      variables: { username, password }
     }
-  );
+    );
 }
 
- export function getAllbank():Promise<any>{
-        return getClient().query({
-            query:ALL_BANK,  
-        });
- } 
+export function prepareQuery(colsIncluded: any[], name: string) {
 
- export function getAllBranches():Promise<any>{
-     return getClient().query({
-         query:ALL_BRANCH
-     })
- }
-
- 
- export function getAllClients():Promise<any>{
-    return getClient().query({
-        query:ALL_CLIENT
-    })
-}
-
-export function getAllClientsAndBranch():Promise<any>{
-    return getClient().query({
-        query:ALL_BRANCH_CLIENT
-    })
-}
-
-export function createAccount(bankDetailModel:any):Promise<any>{
-    return getClient().mutate({
-        mutation:CREATE_ACCOUNT,
-        variables:{bankDetailModel}
-    })
-}
-
-function getClient():ApolloClient<NormalizedCacheObject>{
-    const authLink = setContext((_, { headers }) => {
-        const token = store.store.getState().posts.token;
-        return {
-          headers: {
-            ...headers,
-            Authorization : token ? `Bearer ${token}` : "",
-          }
-        }
-      });
-      
-    return  new ApolloClient({
-        link: authLink.concat(httpLink),
-        cache: new InMemoryCache()
-      });
- }
-
-export function handleError(e:any){
-  if([401,403].indexOf(e.networkError?.response?.status)>-1){
-      ToastProvider.error("Please re-login");
+  let query = `query ${name} { ${name} {
+    ${colsIncluded.map(col => {
+    return col.value
+  })}
   }
-  else{
-        e.graphQLErrors.forEach((element:any) => {
-            ToastProvider.error(element.message);
-        });
+}`
+  console.log(query);
+  return gql(query)
+}
+
+export function executeQuery(graphqlQuery: DocumentNode): Promise<any> {
+  return getClient().query({
+    query: graphqlQuery
+  });
+}
+
+export function getAllbank(): Promise<any> {
+  return executeQuery(ALL_BANK)
+}
+
+export function getAllClientsAndBranch(): Promise<any> {
+  return executeQuery(ALL_BRANCH_CLIENT)
+}
+
+export function createAccount(bankDetailModel: any): Promise<any> {
+  return getClient().mutate({
+    mutation: CREATE_ACCOUNT,
+    variables: { bankDetailModel }
+  })
+}
+
+function getClient(): ApolloClient<NormalizedCacheObject> {
+  const authLink = setContext((_, { headers }) => {
+    const token = store.store.getState().posts.token;
+    return {
+      headers: {
+        ...headers,
+        Authorization: token ? `Bearer ${token}` : "",
       }
+    }
+  });
+
+  return new ApolloClient({
+    link: authLink.concat(httpLink),
+    cache: new InMemoryCache()
+  });
+}
+
+export function handleError(e: any) {
+  console.log(e)
+  if ([401, 403].indexOf(e.networkError?.response?.status) > -1) {
+    ToastProvider.error("Please re-login");
+  }
+  else if (e.graphQLErrors && e.graphQLErrors.length) {
+    e.graphQLErrors.forEach((element: any) => {
+      ToastProvider.error(element.message);
+    });
+  }
+  else {
+    ToastProvider.error(e.message)
+  }
 }

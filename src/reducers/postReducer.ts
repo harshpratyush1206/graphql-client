@@ -1,31 +1,31 @@
-import {LOGIN,LOGOUT} from './types';
+import { LOGIN, LOGOUT } from './types';
 
-const initialState =  {
-  loggedIn:false,  
-  username: null,
-  token: null,
-  userType:null
+const initialState = {
+    loggedIn: false,
+    username: null,
+    token: null,
+    userType: null
 }
 
-export default function(state = initialState,action:any){
+export default function (state = initialState, action: any) {
 
-    switch(action.type){
+    switch (action.type) {
         case LOGIN:
-            return{
+            return {
                 ...state,
                 ...action.payload
             }
         case LOGOUT:
-            return{
+            return {
                 ...state,
-                loggedIn:false,  
+                loggedIn: false,
                 username: null,
                 token: null,
                 userType: null
             }
-                 
-            
-        default : 
+
+
+        default:
             return state;
     }
 

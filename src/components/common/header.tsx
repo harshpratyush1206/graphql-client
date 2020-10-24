@@ -5,23 +5,23 @@ import * as Icon from 'react-bootstrap-icons';
 import store from './../../store';
 import { connect } from 'react-redux';
 import { LOGOUT } from './../../reducers/types';
-import {NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 interface HeaderState {
-  viewSignOut:boolean;
+  viewSignOut: boolean;
 }
 interface HeaderProps {
   history: any;
-  loggedIn:string;
+  loggedIn: string;
 }
 
-const mapStateToProps = (store:any) => ({
+const mapStateToProps = (store: any) => ({
   loggedIn: store.posts.loggedIn,
 })
-const mapDispatchToProps = (dispatch:any) => ({
+const mapDispatchToProps = (dispatch: any) => ({
 
 })
-class Header extends Component<HeaderProps,HeaderState> {
+class Header extends Component<HeaderProps, HeaderState> {
   constructor(props: HeaderProps) {
     super(props);
     this.state = {
@@ -35,9 +35,9 @@ class Header extends Component<HeaderProps,HeaderState> {
     this.signOut = this.signOut.bind(this);
     // this.returnLogoFileName = this.returnLogoFileName.bind(this);
   }
-componentDidMount(){
+  componentDidMount() {
 
-}
+  }
 
   signOut() {
     store.store.dispatch({
@@ -50,32 +50,33 @@ componentDidMount(){
   render() {
     return (
       <div className="header-main">
-      <Navbar bg="dark" expand="md" variant="dark">
-        <Navbar.Brand>     <img
-        src="./logo192.png"
-        width="30"
-        height="30"
-        className="d-inline-block align-top"
-        alt="React Bootstrap logo"
-      />{' '}
+        <Navbar bg="dark" expand="md" variant="dark">
+          <Navbar.Brand>     <img
+            src="./logo192.png"
+            width="30"
+            height="30"
+            className="d-inline-block align-top"
+            alt="React Bootstrap logo"
+          />{' '}
      OakNorth Bank</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-        {this.state.viewSignOut ?<Nav className="mr-auto">
-    
-          <Nav.Link as={NavLink}  to="/home">Home</Nav.Link>
-          <Nav.Link as={NavLink}  to="/newAccount">Create Account</Nav.Link>
-          <Nav.Link as={NavLink}  to="/pricing">Pricing</Nav.Link>:
-          
-        </Nav>: ""}
-        <Form inline>
-            {this.state.viewSignOut ? <Nav.Link className="text-white" onClick={this.signOut}> <Icon.BoxArrowInRight /> Sign Out</Nav.Link> : ""}
-          {/* <FormControl type="text" placeholder="Search" className="mr-sm-2" />
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav">
+            {this.state.viewSignOut ? <Nav className="mr-auto">
+
+              <Nav.Link as={NavLink} to="/home">Home</Nav.Link>
+              <Nav.Link as={NavLink} to="/newAccount">Create Account</Nav.Link>
+              <Nav.Link as={NavLink} to="/allBranch">All Branch</Nav.Link>
+          :
+
+        </Nav> : ""}
+            <Form inline>
+              {this.state.viewSignOut ? <Nav.Link className="text-white" onClick={this.signOut}> <Icon.BoxArrowInRight /> Sign Out</Nav.Link> : ""}
+              {/* <FormControl type="text" placeholder="Search" className="mr-sm-2" />
           <Button variant="outline-info">Search</Button> */}
-        </Form>
-        </Navbar.Collapse>
-      </Navbar>
-    </div>
+            </Form>
+          </Navbar.Collapse>
+        </Navbar>
+      </div>
     );
   }
 }

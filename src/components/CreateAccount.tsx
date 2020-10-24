@@ -19,22 +19,23 @@ class CreateAccount extends Component<any, any> {
         super(props);
         this.state = {
             branches: [],
-            clients:[],
-            accountNumber:'',
-            branchCode:'',
-            city:'',
-            country:'',
-            street:'',
-            zip:'',        
-            validated:false,
-            email:'',
-            clientcity:'',
-            clientcountry:'',
-            clientstreet:'',
-            clientzip:'', 
-            applicantName:'',
-            clientId: '' ,
-            setValidated:false 
+            clients: [],
+            accountNumber: '',
+            branchCode: '',
+            city: '',
+            country: '',
+            street: '',
+            zip: '',
+            validated: false,
+            email: '',
+            clientcity: '',
+            clientcountry: '',
+            clientstreet: '',
+            clientzip: '',
+            applicantName: '',
+            clientId: '',
+            clientContact: '',
+            setValidated: false
         }
         this.submit = this.submit.bind(this);
         this.selectBranch = this.selectBranch.bind(this);
@@ -48,7 +49,7 @@ class CreateAccount extends Component<any, any> {
         } else {
 
             getAllClientsAndBranch().then(result => {
-                this.setState({ branches: result.data.allBranches,clients:result.data.allClients, noDataText: 'No Data Found' });
+                this.setState({ branches: result.data.allBranches, clients: result.data.allClients, noDataText: 'No Data Found' });
             }).catch(error => {
                 this.setState({ noDataText: 'Error in fetching data' });
                 console.log(error);
@@ -60,82 +61,84 @@ class CreateAccount extends Component<any, any> {
 
     }
 
-    selectBranch(e:any){
+    selectBranch(e: any) {
         let code = e.target.value;
-       this.setState({ branchCode: code });
-        let branch =  this.state.branches.find((d:any)=> d.branchCode===code);
+        this.setState({ branchCode: code });
+        let branch = this.state.branches.find((d: any) => d.branchCode === code);
 
-      if(branch){
-          this.setState({
-            city:branch.city,
-            country:branch.country,
-            street:branch.street,
-            zip:branch.zip,   
-          })
-      } else {
-        this.setState({
-            city:'',
-            country:'',
-            street:'',
-            zip:'',   
-          })  
-      }
+        if (branch) {
+            this.setState({
+                city: branch.city,
+                country: branch.country,
+                street: branch.street,
+                zip: branch.zip,
+            })
+        } else {
+            this.setState({
+                city: '',
+                country: '',
+                street: '',
+                zip: '',
+            })
+        }
 
     }
 
 
-    selectUser(e:any){
+    selectUser(e: any) {
         let email = e.target.value;
-       this.setState({ email: email });
-        let client =  this.state.clients.find((d:any)=> d.email===email);
+        this.setState({ email: email });
+        let client = this.state.clients.find((d: any) => d.email === email);
 
-      if(client){
-          this.setState({
-            clientcity:client.city,
-            clientcountry:client.country,
-            clientstreet:client.street,
-            clientzip:client.zip, 
-            applicantName:client.firstName + (client.lastName? ' '+client.lastName:''),
-            clientId: client.id  
-          })
-      } else {
-        this.setState({
-            clientcity:'',
-            clientcountry:'',
-            clientstreet:'',
-            clientzip:'', 
-            applicantName:'',
-            clientId: ''   
-          })  
-      }
+        if (client) {
+            this.setState({
+                clientcity: client.city,
+                clientcountry: client.country,
+                clientstreet: client.street,
+                clientzip: client.zip,
+                applicantName: client.fullName,
+                clientId: client.id,
+                clientContact: client.contact
+            })
+        } else {
+            this.setState({
+                clientcity: '',
+                clientcountry: '',
+                clientstreet: '',
+                clientzip: '',
+                applicantName: '',
+                clientId: '',
+                clientContact: ''
+            })
+        }
 
     }
 
     submit(e: any) {
         this.setState({ isLoading: true });
-        this.setState({ validated: true , setValidated: true});
-        let payload ={
-            accountNumber:this.state.accountNumber,
-            branchCode:this.state.branchCode,
+        this.setState({ validated: true, setValidated: true });
+        let payload = {
+            accountNumber: this.state.accountNumber,
+            branchCode: this.state.branchCode,
             userId: this.state.clientId
         };
         e.preventDefault();
 
-        const form:any = e.currentTarget;
+        const form: any = e.currentTarget;
 
-        if (form.checkValidity()){
-            createAccount(payload).then(result=>{
+        if (form.checkValidity()) {
+            createAccount(payload).then(result => {
                 ToastProvider.success('Account succesfully created');
-                  this.props.history.push('/home')
-            }).catch(d=>{
+                this.props.history.push('/home')
+            }).catch(d => {
                 handleError(d)
-            }).finally(()=>{      
+            }).finally(() => {
                 this.setState({ isLoading: false });
             })
-    
-          }else{
+
+        } else {
             this.setState({ isLoading: false });
-          }
+        }
 
     }
 
@@ -192,8 +195,8 @@ class CreateAccount extends Component<any, any> {
                                                         name="branchCode"
                                                         value={this.state.branchCode}
                                                     >
-                                                        <option key ={''} value={''}> {''}</option>
-                                                        {this.state.branches.map((branch:any) => {
+                                                        <option key={''} value={''}> {''}</option>
+                                                        {this.state.branches.map((branch: any) => {
                                                             return (
                                                                 <option key={branch.id} value={branch.branchCode}>
                                                                     {branch.branchCode}
@@ -208,9 +211,9 @@ class CreateAccount extends Component<any, any> {
 
                                                 </InputGroup>
                                             </Form.Group>
-                                            </Form.Row>
-                                            <Form.Row>
-                                                <span className="sub-title">Branch Details</span> <hr/>
+                                        </Form.Row>
+                                        <Form.Row>
+                                            <span className="sub-title">Branch Details</span> <hr />
 
                                             <Form.Group as={Col} md="4" controlId="street">
                                                 <Form.Label>Street<span className="mandat-astrik">*</span></Form.Label>
@@ -233,7 +236,7 @@ class CreateAccount extends Component<any, any> {
                                                 <Form.Label>Zip<span className="mandat-astrik">*</span></Form.Label>
                                                 <InputGroup>
                                                     <InputGroup.Prepend>
-                                                        <InputGroup.Text>  <Icon.EnvelopeOpen/> </InputGroup.Text>
+                                                        <InputGroup.Text>  <Icon.EnvelopeOpen /> </InputGroup.Text>
                                                     </InputGroup.Prepend>
                                                     <Form.Control
                                                         required
@@ -278,9 +281,9 @@ class CreateAccount extends Component<any, any> {
                                                     />
                                                 </InputGroup>
                                             </Form.Group>
-                                            </Form.Row>
-                                            <Form.Row>
-                                            <span className="sub-title">Applicant Details</span> <hr/>
+                                        </Form.Row>
+                                        <Form.Row>
+                                            <span className="sub-title">Applicant Details</span> <hr />
                                             <Form.Group as={Col} md="4" controlId="userId">
                                                 <Form.Label>Applicant<span className="mandat-astrik">*</span></Form.Label>
                                                 <InputGroup>
@@ -296,8 +299,8 @@ class CreateAccount extends Component<any, any> {
                                                         value={this.state.email}
                                                         onChange={this.selectUser}
                                                     >
-                                                        <option key ={''} value={''}> {''}</option>
-                                                        {this.state.clients.map((client:any) => {
+                                                        <option key={''} value={''}> {''}</option>
+                                                        {this.state.clients.map((client: any) => {
                                                             return (
                                                                 <option key={client.id} value={client.email}>
                                                                     {client.email}
@@ -330,6 +333,23 @@ class CreateAccount extends Component<any, any> {
                                                 </InputGroup>
                                             </Form.Group>
 
+                                            <Form.Group as={Col} md="4" controlId="clientContact">
+                                                <Form.Label>Contact<span className="mandat-astrik">*</span></Form.Label>
+                                                <InputGroup>
+                                                    <InputGroup.Prepend>
+                                                        <InputGroup.Text>  <Icon.Phone /> </InputGroup.Text>
+                                                    </InputGroup.Prepend>
+                                                    <Form.Control
+                                                        required
+                                                        type="text"
+                                                        placeholder="Contact"
+                                                        name="clientContact"
+                                                        value={this.state.clientContact}
+                                                        disabled={true}
+                                                    />
+                                                </InputGroup>
+                                            </Form.Group>
+
                                             <Form.Group as={Col} md="4" controlId="clientstreet">
                                                 <Form.Label>Street<span className="mandat-astrik">*</span></Form.Label>
                                                 <InputGroup>
@@ -351,7 +371,7 @@ class CreateAccount extends Component<any, any> {
                                                 <Form.Label>Zip<span className="mandat-astrik">*</span></Form.Label>
                                                 <InputGroup>
                                                     <InputGroup.Prepend>
-                                                        <InputGroup.Text>  <Icon.EnvelopeOpen/> </InputGroup.Text>
+                                                        <InputGroup.Text>  <Icon.EnvelopeOpen /> </InputGroup.Text>
                                                     </InputGroup.Prepend>
                                                     <Form.Control
                                                         required

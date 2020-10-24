@@ -4,6 +4,7 @@ import './App.css';
 import Login from './components/Login';
 import Home from './components/home';
 import CreateAccount from './components/CreateAccount'
+import AllBranches from './components/AllBranches'
 import { Slide, ToastContainer } from 'react-toastify';
 
 
@@ -28,6 +29,7 @@ function App() {
         <Route path="/login" exact component={Login} />
         <Route path="/home" exact component={Home} />
         <Route path="/newAccount" exact component={CreateAccount} />
+        <Route path='/allBranch' exact component={AllBranches} />
       </Switch>
     </BrowserRouter>
   );

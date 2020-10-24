@@ -13,99 +13,6 @@ import * as Icon from 'react-bootstrap-icons';
 import { executeQuery, handleError, prepareQuery } from './common/Query';
 import ReactSelect from "react-select";
 
-const BANKDETAILS_KEYS: {
-    value: string;
-    label: string;
-    order: number;
-    key: string;
-    parentKey?: String;
-}[] = [{
-    "value": "accountNumber",
-    "label": "Account Number",
-    "order": 1,
-    "key": "accountNumber"
-},
-{
-    "value": "user{fullName}",
-    "label": "Account Holder",
-    "order": 2,
-    "key": "fullName",
-    "parentKey": "user"
-},
-{
-    "value": "user{address}",
-    "label": "Address",
-    "order": 3,
-    "key": "address",
-    "parentKey": "user"
-},
-{
-    "value": "user{email}",
-    "label": "Email Address",
-    "order": 4,
-    "key": "email",
-    "parentKey": "user"
-},
-{
-    "value": "user{contact}",
-    "label": "Contact",
-    "order": 4,
-    "key": "contact",
-    "parentKey": "user"
-},
-{
-    "value": "branchDetails{branchCode}",
-    "label": "Branch Code",
-    "order": 5,
-    "key": "branchCode",
-    "parentKey": "branchDetails"
-},
-{
-    "value": "branchDetails{address}",
-    "label": "Branch Address",
-    "order": 6,
-    "key": "address",
-    "parentKey": "branchDetails"
-},
-{
-    "value": "balance",
-    "label": "Balance",
-    "order": 7,
-    "key": "balance"
-},
-{
-    "value": "accountStatus",
-    "label": "Account Status",
-    "order": 8,
-    "key": "accountStatus"
-}];
-
-const DEFAULT_KEYS = [{
-    "value": "accountNumber",
-    "label": "Account Number",
-    "order": 1,
-    "key": "accountNumber"
-},
-{
-    "value": "user{fullName}",
-    "label": "Account Holder",
-    "order": 2,
-    "key": "fullName",
-    "parentKey": "user"
-},
-{
-    "value": "balance",
-    "label": "Balance",
-    "order": 7,
-    "key": "balance"
-},
-{
-    "value": "accountStatus",
-    "label": "Account Status",
-    "order": 8,
-    "key": "accountStatus"
-}];
-
 
 const mapStateToProps = (store: any) => ({
     loggedIn: store.posts.loggedIn,
@@ -114,14 +21,43 @@ const mapDispatchToProps = (dispatch: any) => ({
 
 })
 
-class Home extends Component<any, any> {
+const BRANCH_KEYS: {
+    value: string;
+    label: string;
+    order: number;
+}[] = [{
+    "value": "branchCode",
+    "label": "Branch Code",
+    "order": 1
+},
+{
+    "value": "street",
+    "label": "Street",
+    "order": 2
+},
+{
+    "value": "zip",
+    "label": "Zip",
+    "order": 3
+},
+{
+    "value": "city",
+    "label": "City",
+    "order": 4
+},
+{
+    "value": "country",
+    "label": "Country",
+    "order": 5
+}];
+
+class AllBranches extends Component<any, any> {
     constructor(props: any) {
         super(props);
         this.state = {
-            accountList:
-                [],
+            branchList: [],
             noDataText: 'Loading Data',
-            selectedBankDetails: DEFAULT_KEYS
+            selectedBranchKeys: BRANCH_KEYS
         };
     }
 
@@ -130,33 +66,36 @@ class Home extends Component<any, any> {
             this.props.history.push("/");
         }
         else {
-            this.loadBankData(this.state.selectedBankDetails);
+            this.loadBranches(this.state.selectedBranchKeys);
         }
     }
-
 
     handleKeyChanges = (selectedTypes: any) => {
         selectedTypes = selectedTypes ? selectedTypes : [];
         if (selectedTypes.findIndex((d: any) => d.order === 1) < 0) {
-            selectedTypes.push(BANKDETAILS_KEYS.find((d: any) => d.order === 1))
+            selectedTypes.push(BRANCH_KEYS.find((d: any) => d.order === 1))
         }
 
         selectedTypes.sort((a: any, b: any) => { return a.order - b.order });
         this.setState(
             {
-                selectedBankDetails: selectedTypes,
+                selectedBranchKeys: selectedTypes,
             });
-        this.loadBankData(selectedTypes);
+        this.loadBranches(selectedTypes);
     };
 
-    loadBankData(selectedKeys: any[]) {
-        this.setState({ accountList: [], noDataText: 'Loading Data' })
-        executeQuery(prepareQuery(selectedKeys, 'allBank')).then(result => {
-            this.setState({ accountList: result.data.allBank, noDataText: 'No Data Found' });
+    loadBranches(selectedKeys: any[]) {
+        let query = prepareQuery(selectedKeys, 'allBranches');
+        this.setState({ branchList: [], noDataText: 'Loading Data' })
+        executeQuery(query).then(result => {
+            this.setState({
+                branchList: result.data.allBranches,
+                noDataText: 'No Data Found'
+            });
         }).catch(error => {
             handleError(error);
             this.setState({ noDataText: 'Error in fetching data' });
-        })
+        });
     }
 
 
@@ -176,9 +115,9 @@ class Home extends Component<any, any> {
                                             isMulti
                                             placeholder="Visible Columns"
                                             className="select-container"
-                                            value={this.state.selectedBankDetails}
+                                            value={this.state.selectedBranchKeys}
                                             onChange={this.handleKeyChanges}
-                                            options={BANKDETAILS_KEYS}
+                                            options={BRANCH_KEYS}
                                         />
                                     </Form.Group>
                                 </Col>
@@ -188,39 +127,36 @@ class Home extends Component<any, any> {
                                         variant="success"
                                         className="margin-bottom-20 float-right" onClick={() => { this.props.history.push('newAccount') }}
                                     ><Icon.PlusCircle></Icon.PlusCircle>
-                               &nbsp; Create New Account
+                               &nbsp; Create New Branch
                                 </Button>
                                 </Col>
                             </Row>
-
-
                             <Table bordered hover responsive>
                                 <thead>
                                     <tr>
-                                        {this.state.selectedBankDetails.map((bankKey: any) => {
+                                        {this.state.selectedBranchKeys.map((branchKey: any) => {
                                             return (
-                                                <th key={bankKey.value}>{bankKey.label}</th>
+                                                <th key={branchKey.value}>{branchKey.label}</th>
                                             )
                                         })
                                         }
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {this.state.accountList && this.state.accountList.length > 0
-                                        ? this.state.accountList.map((account: any) => {
+                                    {this.state.branchList && this.state.branchList.length > 0
+                                        ? this.state.branchList.map((branch: any) => {
                                             return (
-                                                <tr key={account.accountNumber}>
-                                                    {  this.state.selectedBankDetails.map((bankKey: any) => {
+                                                <tr key={branch.branchCode}>
+                                                    {  this.state.selectedBranchKeys.map((branchKey: any) => {
                                                         return (
-                                                            <td key={bankKey.value}>{bankKey.parentKey && account[bankKey.parentKey]
-                                                                ? account[bankKey.parentKey][bankKey.key] : account[bankKey.key]}</td>
+                                                            <td key={branchKey.value} >{branch[branchKey.value]}</td>
                                                         )
                                                     })
                                                     }
                                                 </tr>
                                             )
                                         })
-                                        : <tr><td colSpan={this.state.selectedBankDetails.length} className="text-center big bold">{this.state.noDataText}</td></tr>
+                                        : <tr><td colSpan={this.state.selectedBranchKeys.length} className="text-center big bold">{this.state.noDataText}</td></tr>
                                     }
                                 </tbody>
                             </Table>
@@ -232,4 +168,4 @@ class Home extends Component<any, any> {
     }
 
 }
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(AllBranches);

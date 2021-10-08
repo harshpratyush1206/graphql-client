@@ -125,7 +125,7 @@ class AllBranches extends Component<any, any> {
                                 <Col md={2} >
                                     <Button
                                         variant="success"
-                                        className="margin-bottom-20 float-right" onClick={() => { this.props.history.push('newAccount') }}
+                                        className="margin-bottom-20 float-right" onClick={() => { this.props.history.push('createBranch') }}
                                     ><Icon.PlusCircle></Icon.PlusCircle>
                                &nbsp; Create New Branch
                                 </Button>

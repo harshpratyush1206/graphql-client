@@ -149,7 +149,7 @@ class Login extends Component<LoginProps, LoginState> {
                         </InputGroup.Prepend>
                         <Form.Control
                           required
-                          type="text"
+                          type="password"
                           placeholder="Enter your pasword"
                           name="password"
                           onChange={e => this.setState({ password: e.target.value })}

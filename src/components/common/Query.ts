@@ -24,6 +24,24 @@ mutation createBankAccount($bankDetailModel: BankDetailsModel!) {
 }`
 
 
+const CREATE_BRANCH = gql`
+mutation createBranch($branchDetails: BranchDetailsModel!) {
+  createBranch(branchDetails: $branchDetails) {
+    id
+    branchCode
+    city
+    country
+    street
+    zip
+    address
+    createdBy
+    createdOn
+    lastModifiedBy
+    lastModifiedOn
+  }
+}`
+
+
 const ALL_BANK = gql`query ALL_BANK{
     allBank{
         accountNumber,
@@ -99,6 +117,13 @@ export function createAccount(bankDetailModel: any): Promise<any> {
   return getClient().mutate({
     mutation: CREATE_ACCOUNT,
     variables: { bankDetailModel }
+  })
+}
+
+export function createBranch(branchDetails: any): Promise<any> {
+  return getClient().mutate({
+    mutation: CREATE_BRANCH,
+    variables: { branchDetails }
   })
 }
 

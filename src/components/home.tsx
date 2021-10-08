@@ -188,8 +188,8 @@ class Home extends Component<any, any> {
                                         variant="success"
                                         className="margin-bottom-20 float-right" onClick={() => { this.props.history.push('newAccount') }}
                                     ><Icon.PlusCircle></Icon.PlusCircle>
-                               &nbsp; Create New Account
-                                </Button>
+                                        &nbsp; Create New Account
+                                    </Button>
                                 </Col>
                             </Row>
 
@@ -210,7 +210,7 @@ class Home extends Component<any, any> {
                                         ? this.state.accountList.map((account: any) => {
                                             return (
                                                 <tr key={account.accountNumber}>
-                                                    {  this.state.selectedBankDetails.map((bankKey: any) => {
+                                                    {this.state.selectedBankDetails.map((bankKey: any) => {
                                                         return (
                                                             <td key={bankKey.value}>{bankKey.parentKey && account[bankKey.parentKey]
                                                                 ? account[bankKey.parentKey][bankKey.key] : account[bankKey.key]}</td>

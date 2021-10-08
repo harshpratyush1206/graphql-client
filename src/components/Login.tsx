@@ -131,11 +131,11 @@ class Login extends Component<LoginProps, LoginState> {
                           onChange={e => this.setState({ username: e.target.value })}
                           value={this.state.username}
                         />
-                          <Form.Control.Feedback type="invalid">
-                        Please enter your email
-                              </Form.Control.Feedback>
+                        <Form.Control.Feedback type="invalid">
+                          Please enter your email
+                        </Form.Control.Feedback>
                       </InputGroup>
-                    
+
                     </Form.Group>
                     <Form.Group
                       as={Col}
@@ -156,10 +156,10 @@ class Login extends Component<LoginProps, LoginState> {
                           value={this.state.password}
                         />
                         <Form.Control.Feedback type="invalid">
-                        Please enter your password
-                              </Form.Control.Feedback>
+                          Please enter your password
+                        </Form.Control.Feedback>
                       </InputGroup>
-                      
+
                     </Form.Group>
                   </Form.Row>
                   <div>
@@ -182,9 +182,9 @@ class Login extends Component<LoginProps, LoginState> {
                               size="sm"
                             />
                           ) : (
-                              ""
-                            )} Login
-                                </Button>
+                            ""
+                          )} Login
+                        </Button>
                       </Col>
                     </Row>
                   </div>

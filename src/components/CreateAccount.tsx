@@ -36,7 +36,7 @@ class CreateAccount extends Component<any, any> {
             clientId: '',
             clientContact: '',
             setValidated: false,
-            isLoading:false
+            isLoading: false
         }
         this.submit = this.submit.bind(this);
         this.selectBranch = this.selectBranch.bind(this);
@@ -177,7 +177,7 @@ class CreateAccount extends Component<any, any> {
                                                     />
                                                     <Form.Control.Feedback type="invalid">
                                                         Please provide a valid account number.
-                            </Form.Control.Feedback>
+                                                    </Form.Control.Feedback>
                                                 </InputGroup>
                                             </Form.Group>
                                         </Form.Row>
@@ -211,7 +211,7 @@ class CreateAccount extends Component<any, any> {
                                                     </Form.Control>
                                                     <Form.Control.Feedback type="invalid">
                                                         Please select a branch.
-                                             </Form.Control.Feedback>
+                                                    </Form.Control.Feedback>
 
 
                                                 </InputGroup>
@@ -312,7 +312,7 @@ class CreateAccount extends Component<any, any> {
                                                     </Form.Control>
                                                     <Form.Control.Feedback type="invalid">
                                                         Please select a applicant.
-                                             </Form.Control.Feedback>
+                                                    </Form.Control.Feedback>
 
 
                                                 </InputGroup>
@@ -438,9 +438,9 @@ class CreateAccount extends Component<any, any> {
                                                             size="sm"
                                                         />
                                                     ) : (
-                                                            ""
-                                                        )} Create Account
-                                </Button>
+                                                        ""
+                                                    )} Create Account
+                                                </Button>
                                             </Col>
                                         </Row>
                                     </Form>

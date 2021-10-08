@@ -20,9 +20,4 @@ const store = createStore(persistedReducer, initialState,
 
 let persistor = persistStore(store)
 
-// const store = createStore(
-//     rootReducer,
-//     initialState,
-//     compose(applyMiddleware(...middleware))
-// );
 export default { store, persistor };

@@ -127,8 +127,8 @@ class AllBranches extends Component<any, any> {
                                         variant="success"
                                         className="margin-bottom-20 float-right" onClick={() => { this.props.history.push('createBranch') }}
                                     ><Icon.PlusCircle></Icon.PlusCircle>
-                               &nbsp; Create New Branch
-                                </Button>
+                                        &nbsp; Create New Branch
+                                    </Button>
                                 </Col>
                             </Row>
                             <Table bordered hover responsive>
@@ -147,7 +147,7 @@ class AllBranches extends Component<any, any> {
                                         ? this.state.branchList.map((branch: any) => {
                                             return (
                                                 <tr key={branch.branchCode}>
-                                                    {  this.state.selectedBranchKeys.map((branchKey: any) => {
+                                                    {this.state.selectedBranchKeys.map((branchKey: any) => {
                                                         return (
                                                             <td key={branchKey.value} >{branch[branchKey.value]}</td>
                                                         )

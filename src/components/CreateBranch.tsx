@@ -25,7 +25,7 @@ class CreateBranch extends Component<any, any> {
             zip: '',
             validated: false,
             setValidated: false,
-            isLoading:false
+            isLoading: false
         }
         this.submit = this.submit.bind(this);
     }
@@ -43,7 +43,7 @@ class CreateBranch extends Component<any, any> {
     submit(e: any) {
         this.setState({ isLoading: true });
         this.setState({ validated: true, setValidated: true });
-        let payload = Object.assign({},this.state as any);
+        let payload = Object.assign({}, this.state as any);
         e.preventDefault();
 
         const form: any = e.currentTarget;
@@ -106,7 +106,7 @@ class CreateBranch extends Component<any, any> {
                                                     </Form.Control>
                                                     <Form.Control.Feedback type="invalid">
                                                         Please enter valid branch code.
-                                             </Form.Control.Feedback>
+                                                    </Form.Control.Feedback>
 
 
                                                 </InputGroup>
@@ -197,9 +197,9 @@ class CreateBranch extends Component<any, any> {
                                                             size="sm"
                                                         />
                                                     ) : (
-                                                            ""
-                                                        )} Create Branch
-                                </Button>
+                                                        ""
+                                                    )} Create Branch
+                                                </Button>
                                             </Col>
                                         </Row>
                                     </Form>
